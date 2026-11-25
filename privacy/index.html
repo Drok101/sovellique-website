@@ -91,7 +91,7 @@
     <p>It does save a short activity record on your account: your account id, an event name, and the time. The events are finishing onboarding, adding a product, adding a wishlist item, creating a board, exporting a board, completing a ritual, starting a journey, opening the Plus screen, and purchasing a subscription. That record does not include journal text, photos, notes, or prices.</p>
     <p>Reminders are scheduled on your phone. They are not sent through a push service. A ritual reminder can use the ritual's title, and an expiration reminder can use the product's name. The rest of the reminder text is a fixed sentence.</p>
     <p>The app's fonts are included in the app. Using the app does not send a request to Google for those fonts.</p>
-    <p>This website is different from the app. It loads fonts from Google Fonts, and Google receives your IP address and the request details needed to deliver the font files. The site is hosted on Vercel, which receives the connection data needed to deliver the pages, including your IP address. The site does not set its own cookies. See the <a href="../cookies/index.html">Cookie Policy</a>.</p>
+    <p>This website is different from the app. It loads fonts from Google Fonts, and Google receives your IP address and the request details needed to deliver the font files. The site is hosted on Vercel, which receives the connection data needed to deliver the pages, including your IP address. Vercel Web Analytics also records each page view: the page address, referrer, approximate location, device type, operating system, and browser. It does not use cookies, and it does not tie that record to a SOVELLIQUE account. The site does not set its own cookies. See the <a href="../cookies/index.html">Cookie Policy</a>.</p>
     <h2 id="s4">4. How information is used</h2>
     <p>Information you provide may be used to:</p>
     <ul>
@@ -118,7 +118,7 @@
       <li><strong>RevenueCat</strong> receives your account id so the app can tell whether SOVELLIQUE Plus is active. The Plus expiry date and product id are then saved on your account. The app does not state which country RevenueCat stores this in. Deleting your account signs you out of RevenueCat. It does not delete RevenueCat's subscriber record.</li>
       <li><strong>Google Play</strong> handles the purchase and renewal of SOVELLIQUE Plus. Google processes payment information under its own privacy policy.</li>
       <li><strong>Google Fonts</strong> delivers fonts for this website, as described above. The app does not request fonts from Google.</li>
-      <li><strong>Vercel</strong> hosts this website and receives the connection data needed to deliver it.</li>
+      <li><strong>Vercel</strong> hosts this website and receives the connection data needed to deliver it. Vercel Web Analytics records page views on this website, as described above.</li>
     </ul>
     <h2 id="s7">7. Subscriptions and payments</h2>
     <p>SOVELLIQUE Plus subscriptions are offered through Google Play.</p>
@@ -182,5 +182,9 @@
   </div>
 </footer>
 <script src="../assets/js/site.js"></script>
+<script>
+  window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+</script>
+<script defer src="/_vercel/insights/script.js"></script>
 </body>
 </html>
