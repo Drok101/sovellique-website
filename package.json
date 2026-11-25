@@ -1,0 +1,11 @@
+{
+  "name": "sovellique-website",
+  "private": true,
+  "scripts": {
+    "dev": "serve . -l 4173",
+    "start": "serve . -l 4173"
+  },
+  "devDependencies": {
+    "serve": "^14.2.5"
+  }
+}
