@@ -7,7 +7,7 @@ function readHtml(file: string) {
 }
 
 function cleanHref(value: string) {
-  if (/^(https?:|mailto:|#|tel:)/i.test(value)) return value;
+  if (/^[a-z][a-z0-9+.-]*:/i.test(value) || value.startsWith("#")) return value;
 
   const hashIndex = value.indexOf("#");
   const hash = hashIndex >= 0 ? value.slice(hashIndex) : "";
@@ -39,10 +39,12 @@ export function pageMetadata(file: string): Metadata {
   const ogDescription = html.match(/<meta property="og:description" content="([^"]*)"/)?.[1];
   const ogImage = html.match(/<meta property="og:image" content="([^"]*)"/)?.[1];
   const image = ogImage ? cleanHref(ogImage) : undefined;
+  const robots = html.match(/<meta name="robots" content="([^"]*)"/)?.[1];
 
   return {
     title: { absolute: title },
     description,
+    ...(robots ? { robots } : {}),
     alternates: { canonical: canonicalPath(canonical) },
     openGraph: {
       title: ogTitle ?? title,
@@ -56,7 +58,7 @@ export function pageMetadata(file: string): Metadata {
 export function SitePage({ file }: { file: string }) {
   const html = readHtml(file);
   const body = (html.match(/<body[^>]*>([\s\S]*)<\/body>/i)?.[1] ?? "")
-    .replace(/<script[\s\S]*?<\/script>/gi, "")
+    .replace(/<script[\s\S]*?<\/script>/gi, (tag) => (/open-reset\.js/i.test(tag) ? tag : ""))
     .replace(/\s(href|src)=("|')([^"']+)\2/g, (_match, attr, quote, value) => {
       return ` ${attr}=${quote}${cleanHref(value)}${quote}`;
     });
