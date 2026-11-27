@@ -1,5 +1,4 @@
 (function () {
-  var triggers = { code: true, access_token: true, token_hash: true };
   var merged = new URLSearchParams();
 
   function absorb(raw) {
@@ -14,13 +13,31 @@
   absorb(window.location.search);
   absorb(window.location.hash);
 
-  var found = false;
-  merged.forEach(function (value, key) {
-    if (triggers[key] && value) found = true;
+  var code = merged.get("code");
+  var query = new URLSearchParams();
+  ["access_token", "token_hash"].forEach(function (key) {
+    var value = merged.get(key);
+    if (value) query.set(key, value);
   });
-  if (!found) return;
 
-  var link = "sovellique://reset-password?" + merged.toString();
+  if (!code && !query.toString()) return;
+
+  var queryString = query.toString();
+  var link;
+  if (code) {
+    var encoded = encodeURIComponent(code);
+    if (/Android/i.test(navigator.userAgent)) {
+      link = "intent://reset-password/" + encoded;
+      if (queryString) link += "?" + queryString;
+      link += "#Intent;scheme=sovellique;package=com.sovellique.app;end";
+    } else {
+      link = "sovellique://reset-password/" + encoded;
+      if (queryString) link += "?" + queryString;
+    }
+  } else {
+    link = "sovellique://reset-password?" + queryString;
+  }
+
   var button = document.getElementById("open-app");
   if (button) button.href = link;
   window.location = link;
